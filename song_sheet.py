@@ -102,6 +102,32 @@ def zairu():
                 tk.messagebox.showerror(title= '播放失败',message='该歌曲无版权或为VIP歌曲，请前往拥有版权的音乐网站在线播放。')
         bt_play=tk.Button(window,text='播放',command=lambda : play())
         bt_play.place(x=750,y=20)
+        #定义暂停函数，与放置暂停按钮
+        def pause():
+            pygame.mixer.music.pause() 
+        bt_stop=tk.Button(window,text='停止播放',command=lambda :pause())
+        bt_stop.place(x=800,y=20)
+        #定义继续播放函数，与放置继续播放按钮
+        def unpause():
+            pygame.mixer.music.unpause()
+        bt_unpause=tk.Button(window,text='继续播放',command=lambda :unpause())
+        bt_unpause.place(x=870,y=20)
+        # 定义调节音量的函数，并与滚动条绑定
+        def vol(v):
+            pygame.mixer.music.set_volume(float(v))
+        s=tk.Scale(window,label='音量调节',from_=0,to=1,orient=tk.HORIZONTAL ,length=200,showvalue=1,tickinterval=0.25,resolution= 0.01,command=vol).place(x=930,y=15)
+        #将歌单信息插入text组件
+        for i in range(len(response_dict['result']['tracks'])):
+            textbox.insert('insert',str(i)+'\t')
+            textbox.insert('insert',songs[i]+' '+'\t')
+            textbox.insert('insert',artist[i]+' '+'\t')
+            textbox.insert('insert',album[i]+' '+'\t')
+            textbox.insert('insert',str(popularity[i])+' '+'\t')
+            textbox.insert('insert',str(playTime[i])+'\n')
+        window.mainloop()
+    #响应未成功，弹出提示框
+    else:
+        tk.messagebox.showerror(title= '响应失败',message='系统繁忙，请稍后再试！')
 bt_zr=tk.Button(top,text='载入歌单',command=lambda : zairu())
 bt_zr.place(x=350,y=180)
 
