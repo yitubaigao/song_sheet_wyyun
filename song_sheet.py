@@ -76,6 +76,32 @@ def zairu():
         textbox.config(yscrollcommand=scr.set)
         textbox.place(x=0,y = 100)
         scr.place(x=1585,y=100)
+
+        def download():
+            try:
+                sid = songid.get()
+                durl = 'http://music.163.com/song/media/outer/url?id='+str(d[int(sid)])+'.mp3'
+                f = requests.get(durl)  
+                with open(sid+'.mp3', 'wb') as code:  
+                    code.write(f.content)
+            except:
+                tk.messagebox.showerror(title= '下载失败',message='该歌曲无版权或为VIP歌曲')
+        bt_download=tk.Button(window,text='下载',command=lambda : download())
+        bt_download.place(x=700,y=20)
+        #定义播放函数，与放置播放按钮
+        def play():
+            try:
+                sid = songid.get()
+                durl = 'http://music.163.com/song/media/outer/url?id='+str(d[int(sid)])+'.mp3'
+                f = requests.get(durl)  
+                with open('sid'+'.mp3', 'wb') as code:  
+                    code.write(f.content)
+                track = pygame.mixer.music.load('sid'+'.mp3')
+                pygame.mixer.music.play()
+            except:
+                tk.messagebox.showerror(title= '播放失败',message='该歌曲无版权或为VIP歌曲，请前往拥有版权的音乐网站在线播放。')
+        bt_play=tk.Button(window,text='播放',command=lambda : play())
+        bt_play.place(x=750,y=20)
 bt_zr=tk.Button(top,text='载入歌单',command=lambda : zairu())
 bt_zr.place(x=350,y=180)
 
